@@ -1,4 +1,8 @@
-# Pa
+# 關於本專案
+
+係循[此課程](https://gist.github.com/jzlin/07da7ef39f51afec96325ecf7df1d6a8)進行實作練習，並以版控紀錄歷程。
+
+# exercise-angular-course-1006
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.4.4.
 
