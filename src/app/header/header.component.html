@@ -1,0 +1,6 @@
+<header class="header">
+  <h1>{{title | uppercase}}</h1>
+
+  <input class="new-todo" [placeholder]="hint4Input" [(ngModel)]="inputTodo" (keyup.enter)="submitNewTodo.emit(inputTodo); inputTodo=''"
+    autofocus>
+</header>
