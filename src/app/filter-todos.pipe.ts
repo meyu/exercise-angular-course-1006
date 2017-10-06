@@ -1,11 +1,12 @@
+import { ItemTodo } from './item-todo';
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'filterTodo'
+  name: 'filterTodos'
 })
-export class FilterTodoPipe implements PipeTransform {
+export class FilterTodosPipe implements PipeTransform {
 
-  transform(todos: any[], fltType?: number): any {
+  transform(todos: ItemTodo[], fltType: number): ItemTodo[] {
     switch (fltType) {
       case 1:
         return todos.filter(item => item.isDone == false);

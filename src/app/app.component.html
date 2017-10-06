@@ -8,13 +8,16 @@
     <label for="toggle-all">Mark all as complete</label>
 
     <ul class="todo-list">
-      <app-item *ngFor="let el of todoView | filterTodo: footer.fltType" 
+      <app-item *ngFor="let el of todos | filterTodos: footer.fltType | descTodos" 
       [item]="el"
       (submitDone)="notTodo($event)"
+      (submitRemove)="rmvTodo($event)"
       ></app-item>
     </ul>
 
   </section>
 
-  <app-footer [todoCount]="todos.length" #footer></app-footer>
+  <app-footer [todoCount]="(todos | filterTodos:1).length" (submitClear)="rmvNotTodo()" #footer></app-footer>
+
+
 </section>

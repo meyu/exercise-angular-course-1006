@@ -1,4 +1,3 @@
-import { DescTodoPipe } from './desc-todo.pipe';
 import { ItemTodo } from './item-todo';
 import { Component } from '@angular/core';
 
@@ -10,22 +9,43 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'app';
   todos: ItemTodo[] = [];
-  todoView: ItemTodo[] = [];
 
-  descView() {
-    this.todoView = this.todos.slice();
-    this.todoView;
+  // TODO: 不明所以，清單在套用 descTodos Pipe 後，沒有這個方法，則清單不會更新顯示；footer 的待辦統計亦同。
+  triggerViewBind() {
+    this.todos = this.todos.slice();
+  }
+  genUniqID(): string {
+    return Math.random().toString(36).substr(2,9);
   }
 
+
+  
+
   addTodo(newTodo: string) {
-    this.todos.push({idx: this.todos.length, todo: newTodo,isDone: false});
-    this.descView();
+    if (newTodo !== '') {
+        this.todos.push({idx: this.genUniqID(), todo: newTodo,isDone: false});
+        this.triggerViewBind();
+    }
   }
 
   notTodo(item: ItemTodo) {
-    this.todos[item.idx].isDone = item.isDone;
-    this.descView();
+    this.todos = this.todos.map(function(i){
+      if (i.idx == item.idx) {
+        i.isDone = item.isDone;
+      }
+      return i;
+    })
+    this.triggerViewBind();
   }
 
+  rmvTodo(item: ItemTodo) {
+    this.todos = this.todos.filter(it => it !== item);
+    this.triggerViewBind();
+  }
+
+  rmvNotTodo() {
+    this.todos = this.todos.filter(it => it.isDone !== true);
+    this.triggerViewBind();
+  }
 
 }

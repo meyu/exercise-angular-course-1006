@@ -10,6 +10,7 @@ export class ItemComponent implements OnInit {
 
   @Input() item: ItemTodo;
   @Output() submitDone = new EventEmitter();
+  @Output() submitRemove = new EventEmitter();
 
   constructor() { }
   ngOnInit() { }
@@ -20,7 +21,7 @@ export class ItemComponent implements OnInit {
   }
 
   removeTodo() {
-
+    this.submitRemove.emit(this.item);
   }
 
 }
