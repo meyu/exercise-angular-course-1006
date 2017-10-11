@@ -31,10 +31,11 @@ export class AppComponent {
   }
 
 
-  notTodo(item?: ItemTodo) {
+  chgTodo(item?: ItemTodo) {
     this.todos.forEach(i => {
       if (i.idx == item.idx) {
         i.isDone = item.isDone;
+        i.todo = item.todo;
       }
     })
     this.triggerViewBind();

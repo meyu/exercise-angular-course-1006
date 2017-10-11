@@ -10,8 +10,9 @@
     <ul class="todo-list">
       <app-item *ngFor="let el of todos | filterTodos: footer.fltType | descTodos" 
       [item]="el"
-      (submitDone)="notTodo($event)"
+      (submitDone)="chgTodo($event)"
       (submitRemove)="rmvTodo($event)"
+      (submitRename)="chgTodo($event)"
       ></app-item>
     </ul>
 
