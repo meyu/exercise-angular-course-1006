@@ -50,11 +50,21 @@ export class AppComponent {
   }
 
   chgTodoAll() {
+    //若皆已勾選，則將行為改為取消勾選
+    if (this.isAllDone()) {
+      this.catAll = false;
+    }
     this.todos.forEach(item => {
       item.isDone = this.catAll;
       this.chgTodo(item);
     })
     this.catAll = !this.catAll;
+  }
+
+  // 偵測是否有未完成的
+  isAllDone() {
+    let ad = this.todos.filter(item => item.isDone == false)
+    return ad.length === 0;
   }
 
 
