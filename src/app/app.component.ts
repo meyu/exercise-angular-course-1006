@@ -1,5 +1,6 @@
 import { ItemTodo } from './item-todo';
 import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -8,56 +9,68 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'app';
-  todos: ItemTodo[] = [];
+  todos = []; //由於會被http.get回傳的資料所覆寫，所以不先指定ItemTodo[]的型別
   catAll: boolean = true;
 
+  private apiBase = 'http://localhost:3000/todos';
+  constructor(private http: HttpClient) { }
+
+  ngOnInit() {
+    this.getTodos();
+  }
 
   // TODO: 不明所以，清單在套用 descTodos Pipe 後，沒有這個方法，則清單不會更新顯示；footer 的待辦統計亦同。
   triggerViewBind() {
     this.todos = this.todos.slice();
   }
-  genUniqID(): string {
-    return Math.random().toString(36).substr(2, 9);
+
+  getTodos() {
+    this.http.get<any[]>(this.apiBase)
+      .subscribe(data => {
+        this.todos = data;
+      });
   }
-
-
 
 
   addTodo(newTodo: string) {
     if (newTodo !== '') {
-      this.todos.push({ idx: this.genUniqID(), todo: newTodo, isDone: false });
-      this.triggerViewBind();
+      let postTodo = { todo: newTodo, isDone: false }
+      this.http.post(this.apiBase, postTodo)
+        .subscribe(data => {
+          this.todos.push(data);
+          this.triggerViewBind();
+        });
     }
   }
 
 
   chgTodo(item?: ItemTodo) {
-    this.todos.forEach(i => {
-      if (i.idx == item.idx) {
-        i.isDone = item.isDone;
-        i.todo = item.todo;
-      }
-    })
-    this.triggerViewBind();
+    this.http.put(`${this.apiBase}/${item.id}`, item).subscribe();
+    this.triggerViewBind();    
   }
 
-  notTodoAll() {
+  chgTodoAll() {
     this.todos.forEach(item => {
       item.isDone = this.catAll;
+      this.chgTodo(item);
     })
-    this.triggerViewBind();
     this.catAll = !this.catAll;
   }
 
 
   rmvTodo(item: ItemTodo) {
-    this.todos = this.todos.filter(it => it !== item);
-    this.triggerViewBind();
+    this.http.delete(`${this.apiBase}/${item.id}`)
+      .subscribe(data => {
+        this.todos = this.todos.filter(i => i !== item); //TODO: 藉由異動todos來更新清單的顯示。但有沒有更好的方案？
+      });
   }
 
   rmvNotTodo() {
-    this.todos = this.todos.filter(it => it.isDone !== true);
-    this.triggerViewBind();
+    this.todos.forEach(i => {
+      if (i.isDone) {
+        this.rmvTodo(i);
+      }
+    });
   }
 
 }

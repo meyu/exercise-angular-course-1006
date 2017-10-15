@@ -1,5 +1,5 @@
 export interface ItemTodo {
-    idx: string,
+    id: number,
     todo: string,
     isDone: boolean
 }
