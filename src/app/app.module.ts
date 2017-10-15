@@ -9,6 +9,7 @@ import { FooterComponent } from './footer/footer.component';
 import { ItemComponent } from './item/item.component';
 import { DescTodosPipe } from './desc-todos.pipe';
 import { FilterTodosPipe } from './filter-todos.pipe';
+import { ApiService } from './api.service';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,9 @@ import { FilterTodosPipe } from './filter-todos.pipe';
     FormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+    ApiService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

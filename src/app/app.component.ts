@@ -1,6 +1,6 @@
-import { ItemTodo } from './item-todo';
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { ApiService } from './api.service';
+
 
 @Component({
   selector: 'app-root',
@@ -9,11 +9,11 @@ import { HttpClient } from '@angular/common/http';
 })
 export class AppComponent {
   title = 'app';
-  todos = []; //由於會被http.get回傳的資料所覆寫，所以不先指定ItemTodo[]的型別
+  todos = [];
   catAll: boolean = true;
 
-  private apiBase = 'http://localhost:3000/todos';
-  constructor(private http: HttpClient) { }
+  constructor(private Api: ApiService) { }
+  
 
   ngOnInit() {
     this.getTodos();
@@ -25,7 +25,7 @@ export class AppComponent {
   }
 
   getTodos() {
-    this.http.get<any[]>(this.apiBase)
+    this.Api.get()
       .subscribe(data => {
         this.todos = data;
       });
@@ -34,8 +34,7 @@ export class AppComponent {
 
   addTodo(newTodo: string) {
     if (newTodo.trim() !== '') {
-      let postTodo = { todo: newTodo, isDone: false }
-      this.http.post(this.apiBase, postTodo)
+      this.Api.post(newTodo)
         .subscribe(data => {
           this.todos.push(data);
           this.triggerViewBind();
@@ -44,8 +43,8 @@ export class AppComponent {
   }
 
 
-  chgTodo(item?: ItemTodo) {
-    this.http.put(`${this.apiBase}/${item.id}`, item).subscribe();
+  chgTodo(todo) {
+    this.Api.put(todo).subscribe();
     this.triggerViewBind();    
   }
 
@@ -68,10 +67,10 @@ export class AppComponent {
   }
 
 
-  rmvTodo(item: ItemTodo) {
-    this.http.delete(`${this.apiBase}/${item.id}`)
+  rmvTodo(todo) {
+    this.Api.delete(todo)
       .subscribe(data => {
-        this.todos = this.todos.filter(i => i !== item); //TODO: 藉由異動todos來更新清單的顯示。但有沒有更好的方案？
+        this.todos = this.todos.filter(i => i !== todo); //TODO: 藉由異動todos來更新清單的顯示。但有沒有更好的方案？
       });
   }
 
