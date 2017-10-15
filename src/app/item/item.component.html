@@ -7,8 +7,11 @@
     <button class="destroy" (click)="removeTodo()"></button>
   </div>
 
-  <input class="edit"
+  <input class="edit" id="editMe"
   [(ngModel)]="item.todo" 
-  (keyup.enter)="submitRename.emit(item); isEditing = false;">
+  (keyup.enter)="submitRename.emit(item); isEditing = false;"
+  (keyup.esc)="giveUpEdit()"
+  (blur)="submitRename.emit(item); isEditing = false;"
+  >
   
 </li>

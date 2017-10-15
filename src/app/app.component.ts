@@ -33,7 +33,7 @@ export class AppComponent {
 
 
   addTodo(newTodo: string) {
-    if (newTodo !== '') {
+    if (newTodo.trim() !== '') {
       let postTodo = { todo: newTodo, isDone: false }
       this.http.post(this.apiBase, postTodo)
         .subscribe(data => {
