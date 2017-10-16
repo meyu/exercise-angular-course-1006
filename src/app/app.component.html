@@ -1,11 +1,13 @@
 <section class="todoapp">
-  <app-header (submitNewTodo)="addTodo($event)"></app-header>
-
+  <app-header 
+  (submitNewTodo)="
+  footer.fltType = footer.fltType === 2 ? 0 : footer.fltType; 
+  addTodo($event)"></app-header>
   
   <section class="main">
     
     <label for="toggle-all">Mark all as complete</label>
-    <input class="toggle-all" type="checkbox" (click)="chgTodoAll()">
+    <input class="toggle-all" type="checkbox" (click)="chgTodoAll();">
 
     <ul class="todo-list">
       <app-item *ngFor="let el of todos | filterTodos: footer.fltType | descTodos" 
@@ -18,7 +20,12 @@
 
   </section>
 
-  <app-footer [todoCount]="(todos | filterTodos:1).length" (submitClear)="rmvNotTodo()" #footer></app-footer>
+  <app-footer 
+  [todoCount]="(todos | filterTodos:1).length" 
+  (submitClear)="
+  footer.fltType = footer.fltType === 2 ? 0 : footer.fltType; 
+  rmvNotTodo()" 
+  #footer></app-footer>
 
 
 </section>

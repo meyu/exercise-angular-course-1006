@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { ApiService } from './api.service';
 
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -14,7 +13,6 @@ export class AppComponent {
 
   constructor(private Api: ApiService) { }
   
-
   ngOnInit() {
     this.getTodos();
   }
@@ -43,9 +41,9 @@ export class AppComponent {
   }
 
 
-  chgTodo(todo) {
-    this.Api.put(todo).subscribe();
-    this.triggerViewBind();    
+  chgTodo(todo, isAll = false) {
+    this.Api.put(todo, isAll).subscribe();
+    this.triggerViewBind();
   }
 
   chgTodoAll() {
@@ -55,7 +53,7 @@ export class AppComponent {
     }
     this.todos.forEach(item => {
       item.isDone = this.catAll;
-      this.chgTodo(item);
+      this.chgTodo(item, true);
     })
     this.catAll = !this.catAll;
   }
@@ -67,8 +65,8 @@ export class AppComponent {
   }
 
 
-  rmvTodo(todo) {
-    this.Api.delete(todo)
+  rmvTodo(todo, isAll = false) {
+    this.Api.delete(todo, isAll)
       .subscribe(data => {
         this.todos = this.todos.filter(i => i !== todo); //TODO: 藉由異動todos來更新清單的顯示。但有沒有更好的方案？
       });
@@ -77,7 +75,7 @@ export class AppComponent {
   rmvNotTodo() {
     this.todos.forEach(i => {
       if (i.isDone) {
-        this.rmvTodo(i);
+        this.rmvTodo(i, true);
       }
     });
   }

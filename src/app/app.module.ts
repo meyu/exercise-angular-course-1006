@@ -10,6 +10,7 @@ import { ItemComponent } from './item/item.component';
 import { DescTodosPipe } from './desc-todos.pipe';
 import { FilterTodosPipe } from './filter-todos.pipe';
 import { ApiService } from './api.service';
+import { NotifyService } from './notify.service';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { ApiService } from './api.service';
     HttpClientModule
   ],
   providers: [
-    ApiService
+    ApiService,
+    NotifyService
   ],
   bootstrap: [AppComponent]
 })
